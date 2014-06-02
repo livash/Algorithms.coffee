@@ -12,15 +12,25 @@ class LinkedList
 
   add: (node) -> #adds new node as head
     return unless node instanceof Node
-    @head ?= node
-    @tail ?= node
+    if @head is null
+      @head = node
+      @tail = node
     # reset head
     temp = @head
     @head = node
     @head.next = temp
+    temp.prev = node
 
-  insert: (node, after_node) ->
+  insert: (new_node, after_node) ->
     # insert a node after the after_node
+    return false unless this.findByValue(after_node.data)
+    return false unless new_node.belongsToNoList()
+
+    moved_node = after_node.next
+    new_node.next = moved_node
+    moved_node.prev = new_node
+    after_node.next = new_node
+    new_node.prev = after_node
 
 
   delete: (node) ->
@@ -33,16 +43,20 @@ class LinkedList
       @tail.next = null
     else if node.isHeadNode()
       @head = node.next
-      node.next.prev = null
+      @head.prev = null
     else
-      @head = node.prev
-      @tail = node.next
-      @head.next = tail
-      @tail.prev = head
+      before_el = node.prev
+      after_el = node.next
+      before_el.next = after_el
+      after_el.prev = before_el
     node.remove()
 
   findByValue: (val) ->
-    # find a node by it's value
+    node = @head
+    while node.next isnt null
+      return node if node.data is val
+      node = node.next
+    null
 
   print: ->
     # print out payload for the list in sequense HEAD to TAIL

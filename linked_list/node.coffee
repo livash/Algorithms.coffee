@@ -1,5 +1,5 @@
 ###
-  Node class.
+  Node class. Double-linked node.
   keeps track of
     - previous node
     - next node
@@ -11,16 +11,18 @@ class Node
   constructor: (@prev, @next, @data) ->
     null
 
-  name: 'Node'
-
   isTailNode: ->
     this.next is null
 
   isHeadNode: ->
     this.prev is null
 
+  belongsToNoList: ->
+    this.prev is null and this.next is null
+
   remove: ->
-    for prop in this
-      delete this.prop
+    @next = null
+    @prev = null
+    @data = null
 
 module.exports = Node

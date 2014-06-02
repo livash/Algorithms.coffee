@@ -22,20 +22,33 @@
       if (!(node instanceof Node)) {
         return;
       }
-      if (this.head == null) {
+      if (this.head === null) {
         this.head = node;
-      }
-      if (this.tail == null) {
         this.tail = node;
       }
       temp = this.head;
       this.head = node;
-      return this.head.next = temp;
+      this.head.next = temp;
+      return temp.prev = node;
     };
 
-    LinkedList.prototype.insert = function(node, after_node) {};
+    LinkedList.prototype.insert = function(new_node, after_node) {
+      var moved_node;
+      if (!this.findByValue(after_node.data)) {
+        return false;
+      }
+      if (!new_node.belongsToNoList()) {
+        return false;
+      }
+      moved_node = after_node.next;
+      new_node.next = moved_node;
+      moved_node.prev = new_node;
+      after_node.next = new_node;
+      return new_node.prev = after_node;
+    };
 
     LinkedList.prototype["delete"] = function(node) {
+      var after_el, before_el;
       if (node.isHeadNode() && node.isTailNode()) {
         this.head = null;
         this.tail = null;
@@ -44,17 +57,27 @@
         this.tail.next = null;
       } else if (node.isHeadNode()) {
         this.head = node.next;
-        node.next.prev = null;
+        this.head.prev = null;
       } else {
-        this.head = node.prev;
-        this.tail = node.next;
-        this.head.next = tail;
-        this.tail.prev = head;
+        before_el = node.prev;
+        after_el = node.next;
+        before_el.next = after_el;
+        after_el.prev = before_el;
       }
       return node.remove();
     };
 
-    LinkedList.prototype.findByValue = function(val) {};
+    LinkedList.prototype.findByValue = function(val) {
+      var node;
+      node = this.head;
+      while (node.next !== null) {
+        if (node.data === val) {
+          return node;
+        }
+        node = node.next;
+      }
+      return null;
+    };
 
     LinkedList.prototype.print = function() {};
 

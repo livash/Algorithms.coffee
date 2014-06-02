@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH=$PATH:../node_modules/mocha/bin
+PATH=$PATH:./node_modules/mocha/bin
 
 # compile files to js
 pwd
