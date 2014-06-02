@@ -34,17 +34,23 @@
 
     LinkedList.prototype.insert = function(new_node, after_node) {
       var moved_node;
-      if (!this.findByValue(after_node.data)) {
+      if (!(after_node === null || this.findByValue(after_node.data))) {
         return false;
       }
       if (!new_node.belongsToNoList()) {
         return false;
       }
-      moved_node = after_node.next;
-      new_node.next = moved_node;
-      moved_node.prev = new_node;
-      after_node.next = new_node;
-      return new_node.prev = after_node;
+      if (after_node === null) {
+        new_node.prev = this.tail;
+        this.tail.next = new_node;
+        return this.tail = new_node;
+      } else {
+        moved_node = after_node.next;
+        new_node.next = moved_node;
+        moved_node.prev = new_node;
+        after_node.next = new_node;
+        return new_node.prev = after_node;
+      }
     };
 
     LinkedList.prototype["delete"] = function(node) {

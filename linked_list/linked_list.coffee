@@ -23,14 +23,19 @@ class LinkedList
 
   insert: (new_node, after_node) ->
     # insert a node after the after_node
-    return false unless this.findByValue(after_node.data)
+    return false unless after_node is null or this.findByValue(after_node.data)
     return false unless new_node.belongsToNoList()
 
-    moved_node = after_node.next
-    new_node.next = moved_node
-    moved_node.prev = new_node
-    after_node.next = new_node
-    new_node.prev = after_node
+    if after_node is null
+      new_node.prev = @tail
+      @tail.next = new_node
+      @tail = new_node
+    else
+	    moved_node = after_node.next
+	    new_node.next = moved_node
+	    moved_node.prev = new_node
+	    after_node.next = new_node
+	    new_node.prev = after_node
 
 
   delete: (node) ->

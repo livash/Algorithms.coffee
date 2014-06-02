@@ -30,19 +30,21 @@
   });
 
   describe('LinkedList class', function() {
-    var a, b, c, empty_list, list, long_list;
+    var a, b, c, empty_list, list, long_list, p;
     list = true;
     empty_list = true;
     long_list = true;
     a = true;
     b = true;
     c = true;
+    p = true;
     beforeEach(function() {
       var d;
       a = new Node(null, null, 'A');
       b = new Node(null, null, 'B');
       c = new Node(null, null, 'C');
       d = new Node(null, null, 'D');
+      p = new Node(null, null, 'P');
       list = new LinkedList(a);
       empty_list = new LinkedList();
       long_list = new LinkedList(a);
@@ -91,10 +93,12 @@
       });
     });
     return describe('insert()', function() {
-      var p;
-      p = new Node(null, null, 'P');
-      return it('can insert new nodes', function() {
+      it('can insert new nodes in the middle of a list', function() {
         long_list.insert(p, b);
+        return assert.equal(long_list.length(), 4);
+      });
+      return it('can insert elements at the end of a list', function() {
+        long_list.insert(p, null);
         return assert.equal(long_list.length(), 4);
       });
     });

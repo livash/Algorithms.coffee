@@ -29,11 +29,13 @@ describe 'LinkedList class', ->
   a = true
   b = true
   c = true
+  p = true
   beforeEach ->
 	  a = new Node null, null, 'A'
 	  b = new Node null, null, 'B'
 	  c = new Node null, null, 'C'
 	  d = new Node null, null, 'D'
+	  p = new Node null, null, 'P'
 
 	  list = new LinkedList a
 	  empty_list = new LinkedList()
@@ -77,7 +79,10 @@ describe 'LinkedList class', ->
       assert.equal found.data, c.data
 
   describe 'insert()', ->
-    p = new Node null, null, 'P'
     it 'can insert new nodes in the middle of a list', ->
       long_list.insert p, b
+      assert.equal long_list.length(), 4
+
+    it 'can insert elements at the end of a list', ->
+      long_list.insert p, null
       assert.equal long_list.length(), 4
